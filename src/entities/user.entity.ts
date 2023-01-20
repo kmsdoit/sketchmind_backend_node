@@ -1,7 +1,8 @@
-import {BeforeInsert, Column, Entity, Index} from "typeorm";
+import {BeforeInsert, Column, Entity, Index, OneToMany} from "typeorm";
 import Model from "./model.entity";
 import * as bcrypt from 'bcryptjs'
 import * as crypto from "crypto";
+import {Profile} from "./profile.entity";
 
 export enum RoleEnumType {
     USER = 'user',
@@ -11,9 +12,7 @@ export enum RoleEnumType {
 export enum SnsEnumType {
     EMAIL = 'email',
     KAKAO = 'kakao',
-
     GOOGLE = 'google',
-
     NAVER = 'naver'
 }
 
@@ -64,8 +63,17 @@ export class User extends Model {
     verificationCode!: string | null;
 
 
+    @OneToMany(() => Profile, (profile) => profile.user)
+    profiles : Profile[]
+
+
     toJSON() {
-        return {...this, password:undefined,verified : undefined };
+        return {
+            ...this,
+            password: undefined,
+            verified: undefined,
+            verificationCode: undefined,
+        };
     }
 
     @BeforeInsert()

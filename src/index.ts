@@ -10,6 +10,7 @@ import cors from 'cors';
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import IndexError from "./utils/indexError";
+import profileRoutes from "./routes/profile.routes";
 
 
 AppDataSource.initialize()
@@ -46,6 +47,7 @@ AppDataSource.initialize()
         // ROUTES
         app.use('/api/auth', authRoutes)
         app.use('/api/users', userRoutes)
+        app.use('/api/profile', profileRoutes)
 
         // HEALTH CHECKER
         app.get('/api/healthchecker', async (_, res: Response) => {
